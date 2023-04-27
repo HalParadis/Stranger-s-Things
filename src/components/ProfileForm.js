@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { Link, useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useParams, useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { fetchFromAPI } from "../api";
 import { async } from "q";
 
-const ProfileForm = ({ setToken }) => {
+const ProfileForm = ({ token, setToken }) => {
+  const history = useHistory();
   const params = useParams();
   const { actionType } = params;
 
@@ -11,7 +12,6 @@ const ProfileForm = ({ setToken }) => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [errorMessage, setErrorMessage] = useState(null);
-
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,6 +31,7 @@ const ProfileForm = ({ setToken }) => {
         setToken(result.data.token);
         console.log(result.data.message);
         setErrorMessage(null);
+        history.push('/profile');
       }
       else {
         setErrorMessage(result.error.message);
@@ -47,6 +48,8 @@ const ProfileForm = ({ setToken }) => {
 
   return (
     <>
+      {token && history.push('/profile')} {/* <--not sure if this works */}
+
       <h1>{actionType === 'login' ? 'Log In' : 'Register'}</h1>
       <form onSubmit={handleSubmit} className='profileForm'>
         {errorMessage && <p className='errorMessage'>{errorMessage}</p>}
