@@ -4,14 +4,14 @@ import { fetchFromAPI } from '../api';
 import { async } from 'q';
 import MapPosts from './MapPosts';
 
-const Profile = ({ token, setToken }) => {
+const Profile = ({ token, setToken, fetchPosts }) => {
   const history = useHistory();
   const [profileData, setProfileData] = useState({});
 
   const fetchProfile = async () => {
     const result = await fetchFromAPI({
       token,
-      endpoint: 'profile',
+      endpoint: '/users/me',
     });
     setProfileData(result.data);
   }
@@ -28,48 +28,55 @@ const Profile = ({ token, setToken }) => {
   return (
     <>
       {
-        !profileData && history.push('/profile/login')
+        !profileData
+          ? history.push('/profile/login')
+          : <>
+            <h1>My Profile</h1>
+
+            <header className='profileHeader'>
+              <h3 className='username'>{`User: ${profileData.username}`}</h3>
+              <button
+                className='logoutButton'
+                type='button'
+                onClick={logout}
+              >Log Out
+              </button>
+            </header>
+
+            <section className='myPosts'>
+              <header className='myPostsHeader'>
+                <h3>My Posts</h3>
+                <button
+                  className='newPostButton'
+                  type='button'
+                  onClick={() => history.push('/posts/new-post')}
+                >Make New Post
+                </button>
+              </header>
+              <MapPosts 
+                posts={profileData.posts} 
+                token={token} 
+                areMyPosts={true} 
+                fetchPosts={fetchPosts}
+              />
+            </section>
+
+            <section className='messages' >
+              <h3>My Messages</h3>
+              {
+                profileData.messages && profileData.messages.map((message, idx) => {
+                  return (
+                    <div key={message.id ?? idx}>
+                      <h4>For {message.post.title}:</h4>
+                      <p>{message.content}</p>
+                      <small>From: {message.fromUser.username}</small>
+                    </div> 
+                  )
+                })
+              }
+            </section>
+          </>
       }
-
-      <h1>My Profile</h1>
-      <header className='profileHeader'>
-        <h3 className='username'>{`User: ${profileData.username}`}</h3>
-
-        <button 
-          className='logoutButton' 
-          type='button' 
-          onClick={logout}
-            >Log Out
-        </button>
-
-        <button 
-          className='newPostButton' 
-          type='button' 
-          onClick={() => history.push('/posts/new-post')}
-            >New Post
-          </button>
-      </header>
-
-      <div className='myPosts'>
-        <h3>My Posts</h3>
-        <MapPosts posts={profileData.posts} />
-      </div>
-      
-      <div className='messages' >
-        <h3>My Messages</h3>
-        {/** view all button, automatically displays all, when  */}
-        {
-          profileData.messages && profileData.messages.map((message, idx) => {
-            return (
-              <div key={message.id ?? idx}>
-                <h4>For {message.post.title}:</h4>
-                <p>{message.content}</p>
-                <small>From: {message.fromUser.username}</small>
-              </div> /** <-- needs work */
-            )
-          })
-        }
-      </div>
     </>
   )
 }

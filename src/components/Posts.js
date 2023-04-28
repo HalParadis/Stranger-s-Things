@@ -5,7 +5,7 @@ import { MapPosts } from '.';
 
 const BASE_URL = 'https://strangers-things.herokuapp.com/api/2301-FTB-PT-WEB-PT';
 
-const Posts = ({posts}) => {
+const Posts = ({posts, token}) => {
   // const [posts, setPosts] = useState([]);
 
   // const fetchPosts = async () => {
@@ -20,7 +20,7 @@ const Posts = ({posts}) => {
   return (
     <>
       <h1>Posts</h1>
-      <MapPosts posts={posts}/>
+      <MapPosts posts={posts} token={token} />
     </>
   )
 }

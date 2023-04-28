@@ -3,7 +3,7 @@ import { Link, useParams, useHistory } from "react-router-dom/cjs/react-router-d
 import { fetchFromAPI } from "../api";
 import { async } from "q";
 
-const ProfileForm = ({ token, setToken }) => {
+const ProfileForm = ({ token, setToken, fetchPosts }) => {
   const history = useHistory();
   const params = useParams();
   const { actionType } = params;
@@ -24,13 +24,14 @@ const ProfileForm = ({ token, setToken }) => {
           }
         },
         method: 'post',
-        endpoint: actionType
+        endpoint: `/users/${actionType}`
       });
 
       if (result.success) {
         setToken(result.data.token);
         console.log(result.data.message);
-        setErrorMessage(null);
+        fetchPosts();
+        //setErrorMessage(null);
         history.push('/profile');
       }
       else {

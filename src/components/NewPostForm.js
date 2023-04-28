@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { fetchFromAPI } from "../api";
 import { FormTextInput } from ".";
 
-const NewPostForm = ({token}) => {
+const NewPostForm = ({token, fetchPosts}) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -29,12 +29,13 @@ const NewPostForm = ({token}) => {
         }
       },
       method: 'post',
-      endpoint: 'posts',
+      endpoint: '/posts',
       token
     });
 
     if (result.success) {
-      setErrorMessage(null);
+      //setErrorMessage(null);
+      fetchPosts();
       history.push('/profile');
     }
     else {
