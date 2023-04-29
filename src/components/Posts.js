@@ -1,28 +1,32 @@
-import { async } from 'q';
-import React, { useEffect, useState } from 'react';
-import { fetchFromAPI } from '../api';
-import { MapPosts } from '.';
+import React, { useState } from "react";
+import { fetchFromAPI } from "../api";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { async } from "q";
+import { Post } from ".";
 
-const BASE_URL = 'https://strangers-things.herokuapp.com/api/2301-FTB-PT-WEB-PT';
+const Posts = ({ posts, token, fetchPosts }) => {
+  //const [message, setMessage] = useState('');
+  const history = useHistory();
 
-const Posts = ({posts, token}) => {
-  // const [posts, setPosts] = useState([]);
-
-  // const fetchPosts = async () => {
-  //   const result = await fetchFromAPI({endpoint: 'posts'});
-  //   setPosts(result.data.posts);
-  // }
-
-  // useEffect(() => {
-  //   fetchPosts();
-  // }, []);
-
-  return (
-    <>
-      <h1>Posts</h1>
-      <MapPosts posts={posts} token={token} />
-    </>
-  )
+  return <>
+    <h1>Posts</h1>
+    {
+      token && <button
+        className='newPostButton'
+        type='button'
+        onClick={() => history.push('/posts/new-post')}
+          >Make New Post
+      </button>
+    }
+    {
+      posts && posts.map((post, idx) => <Post 
+        key={post._id ?? idx}
+        post={post}  
+        token={token} 
+        fetchPosts={fetchPosts}
+      />)
+    }
+  </>
 }
 
 export default Posts;

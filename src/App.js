@@ -4,7 +4,7 @@ import { Route, Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { fetchFromAPI } from './api';
 
 import {
-  MapPosts,
+  Posts,
   Profile,
   ProfileForm,
   NewPostForm
@@ -12,7 +12,6 @@ import {
 
 const App = () => {
   const [token, setToken] = useState(null);
-  // const [userID, setUserID] = useState('');
   const [posts, setPosts] = useState([]);
 
   const fetchPosts = async () => {
@@ -44,8 +43,7 @@ const App = () => {
 
       </Route>
       <Route exact path='/posts'>
-        <h1>Posts</h1>
-        <MapPosts posts={posts} token={token} fetchPosts={fetchPosts} />
+        <Posts posts={posts} token={token} fetchPosts={fetchPosts} />
       </Route>
       <Route path='/posts/new-post'>
         <NewPostForm token={token} fetchPosts={fetchPosts} />
@@ -55,12 +53,14 @@ const App = () => {
           token={token} 
           setToken={setToken} 
           fetchPosts={fetchPosts}
-          // userID={userID} 
-          // setUserID={setUserID} 
         />
       </Route>
       <Route path='/profile/:actionType'>
-        <ProfileForm token={token} setToken={setToken} fetchPosts={fetchPosts} />
+        <ProfileForm 
+          token={token} 
+          setToken={setToken} 
+          fetchPosts={fetchPosts}
+        />
       </Route>
     </>
   )

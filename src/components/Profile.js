@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import { fetchFromAPI } from '../api';
 import { async } from 'q';
-import MapPosts from './MapPosts';
+//import MapPosts from './MapPosts';
 
-const Profile = ({ token, setToken, fetchPosts }) => {
+const Profile = ({ token, setToken }) => {
   const history = useHistory();
   const [profileData, setProfileData] = useState({});
 
@@ -43,7 +43,7 @@ const Profile = ({ token, setToken, fetchPosts }) => {
               </button>
             </header>
 
-            <section className='myPosts'>
+            {/* <section className='myPosts'>
               <header className='myPostsHeader'>
                 <h3>My Posts</h3>
                 <button
@@ -59,22 +59,43 @@ const Profile = ({ token, setToken, fetchPosts }) => {
                 areMyPosts={true} 
                 fetchPosts={fetchPosts}
               />
-            </section>
+            </section> */}
 
-            <section className='messages' >
-              <h3>My Messages</h3>
-              {
-                profileData.messages && profileData.messages.map((message, idx) => {
-                  return (
-                    <div key={message.id ?? idx}>
-                      <h4>For {message.post.title}:</h4>
-                      <p>{message.content}</p>
-                      <small>From: {message.fromUser.username}</small>
-                    </div> 
-                  )
-                })
-              }
-            </section>
+            <h3>My Messages</h3>
+            <div className='messages'>
+              <section className='sentMessages' >              
+                {
+                  profileData.messages && 
+                  profileData.messages.filter(message => {
+                    return profileData._id === message.fromUser._id;
+                  }).map((message, idx) => {
+                    return (
+                      <div key={message.id ?? idx}>
+                        <h4>For {message.post.title}:</h4>
+                        <p>{message.content}</p>
+                        {/* <small>To: {message.fromUser.username}</small> */}
+                      </div> 
+                    )
+                  })
+                }
+              </section>
+              <section className='receivedMessages' >              
+                {
+                  profileData.messages && 
+                  profileData.messages.filter(message => {
+                    return profileData._id !== message.fromUser._id;
+                  }).map((message, idx) => {
+                    return (
+                      <div key={message.id ?? idx}>
+                        <h4>For {message.post.title}:</h4>
+                        <p>{message.content}</p>
+                        <small>From: {message.fromUser.username}</small>
+                      </div> 
+                    )
+                  })
+                }
+              </section>
+            </div>
           </>
       }
     </>

@@ -30,7 +30,7 @@ const ProfileForm = ({ token, setToken, fetchPosts }) => {
       if (result.success) {
         setToken(result.data.token);
         console.log(result.data.message);
-        fetchPosts();
+        await fetchPosts();
         //setErrorMessage(null);
         history.push('/profile');
       }
@@ -49,7 +49,7 @@ const ProfileForm = ({ token, setToken, fetchPosts }) => {
 
   return (
     <>
-      {token && history.push('/profile')} {/* <--not sure if this works */}
+      {token && history.push('/profile')}
 
       <h1>{actionType === 'login' ? 'Log In' : 'Register'}</h1>
       <form onSubmit={handleSubmit} className='profileForm'>
