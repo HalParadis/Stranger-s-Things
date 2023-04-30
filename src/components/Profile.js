@@ -34,7 +34,7 @@ const Profile = ({ token, setToken }) => {
             <h1>My Profile</h1>
 
             <header className='profileHeader'>
-              <h3 className='username'>{`User: ${profileData.username}`}</h3>
+              <h3 className='username'>{`User: ${profileData.username ?? ''}`}</h3>
               <button
                 className='logoutButton'
                 type='button'
