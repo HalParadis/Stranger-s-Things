@@ -5,8 +5,20 @@ import { async } from "q";
 import { Post } from ".";
 
 const Posts = ({ posts, token, fetchPosts }) => {
-  //const [message, setMessage] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const history = useHistory();
+
+  const stringContainsTerm = (str) => {
+    return str.toLowerCase().includes(searchTerm.trim().toLowerCase())
+  }
+
+  const postContainsTerm = (post) => {
+    return stringContainsTerm(post.location)
+      || stringContainsTerm(post.title)
+      || stringContainsTerm(post.author.username)
+      || stringContainsTerm(post.price)
+      || stringContainsTerm(post.description)
+  }
 
   return <>
     <h1>Posts</h1>
@@ -18,12 +30,20 @@ const Posts = ({ posts, token, fetchPosts }) => {
           >Make New Post
       </button>
     }
+    <label htmlFor='searchTerm' >Search: </label>
+        <input
+          type='text'
+          name='searchTerm'
+          value={searchTerm}
+          onChange={event => setSearchTerm(event.target.value)}
+        />
     {
-      posts && posts.map((post, idx) => <Post 
-        key={post._id ?? idx}
-        post={post}  
-        token={token} 
-        fetchPosts={fetchPosts}
+      posts && posts.filter(post => postContainsTerm(post)).map(
+        (post, idx) => <Post 
+          key={post._id ?? idx}
+          post={post}  
+          token={token} 
+          fetchPosts={fetchPosts}
       />)
     }
   </>
