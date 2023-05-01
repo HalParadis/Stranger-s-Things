@@ -29,7 +29,6 @@ const ProfileForm = ({ token, setToken }) => {
 
       if (result.success) {
         setToken(result.data.token);
-        console.log(result.data.message);
         history.push('/profile');
       }
       else {

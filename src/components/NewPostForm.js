@@ -18,27 +18,32 @@ const NewPostForm = ({ token, fetchPosts }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const result = await fetchFromAPI({
-      body: {
-        post: {
-          title,
-          description,
-          price,
-          location,
-          willDeliver
-        }
-      },
-      method: 'post',
-      endpoint: '/posts',
-      token
-    });
+    if (title && description && price) {
+      const result = await fetchFromAPI({
+        body: {
+          post: {
+            title,
+            description,
+            price,
+            location,
+            willDeliver
+          }
+        },
+        method: 'post',
+        endpoint: '/posts',
+        token
+      });
 
-    if (result.success) {
-      fetchPosts();
-      history.push('/profile');
+      if (result.success) {
+        fetchPosts();
+        history.push('/profile');
+      }
+      else {
+        setErrorMessage(result.error.message);
+      }
     }
     else {
-      setErrorMessage(result.error.message);
+      setErrorMessage('Title, Description, and Price fields must be filled.')
     }
   }
 
@@ -53,13 +58,6 @@ const NewPostForm = ({ token, fetchPosts }) => {
           setValue={setTitle}
           required
         />
-
-        {/* <FormTextInput
-          name={'description'}
-          value={description}
-          setValue={setDescription}
-          required
-        /> */}
 
         <div className='newPostInput'>
           <label htmlFor='description'>Description: </label>
