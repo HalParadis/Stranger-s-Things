@@ -7,7 +7,7 @@ import {
   Posts,
   Profile,
   ProfileForm,
-  NewPostForm
+  PostForm
 } from './components';
 
 const App = () => {
@@ -47,8 +47,8 @@ const App = () => {
       <Route exact path='/posts'>
         <Posts posts={posts} token={token} fetchPosts={fetchPosts} />
       </Route>
-      <Route path='/posts/new-post'>
-        <NewPostForm token={token} fetchPosts={fetchPosts} />
+      <Route path='/posts/:actionType/:id'>
+        <PostForm token={token} fetchPosts={fetchPosts} posts={posts} />
       </Route>
       <Route exact path='/profile'>
         <Profile

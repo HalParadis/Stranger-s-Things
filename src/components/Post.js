@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { fetchFromAPI } from "../api";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { async } from "q";
 
-const Post = ({post, token, fetchPosts}) => {
+const Post = ({ post, token, fetchPosts }) => {
+  const history = useHistory();
   const [message, setMessage] = useState('');
   const {
     _id,
@@ -23,6 +25,16 @@ const Post = ({post, token, fetchPosts}) => {
     <h4>{'Location: ' + location}</h4>
     <h4>{`Will ${willDeliver ? '' : 'Not '}Deliver`}</h4>
     {author && <h4>{`Posted by: ${isAuthor ? 'Me' : author.username}`}</h4>}
+
+    {/** Edit Button */}
+    {
+      isAuthor && token && <button
+        className='editButton'
+        type='button'
+        onClick={() => history.push(`/posts/edit-post/${_id}`)}
+          >Edit Post
+      </button>
+    }
 
     {/** Delete Button */}
     {

@@ -2,7 +2,7 @@ import React from "react";
 
 const FormTextInput = ({value, setValue, name}) => {
   return (
-    <div className='newPostInput'>
+    <div className='postFormInput'>
       <label htmlFor={name} >
         {name.slice(0, 1).toUpperCase() + name.slice(1) + ': '}
       </label>

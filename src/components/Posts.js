@@ -27,7 +27,7 @@ const Posts = ({ posts, token, fetchPosts }) => {
           token && <button
             className='newPostButton'
             type='button'
-            onClick={() => history.push('/posts/new-post')}
+            onClick={() => history.push('/posts/new-post/0')}
           >Create New Post
           </button>
         }

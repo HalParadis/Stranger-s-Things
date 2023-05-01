@@ -1,19 +1,25 @@
 import React, { useState } from "react";
 import { async } from "q";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 import { fetchFromAPI } from "../api";
 import { FormTextInput } from ".";
 
-const NewPostForm = ({ token, fetchPosts }) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [location, setLocation] = useState('');
-  const [price, setPrice] = useState('');
-  const [willDeliver, setWillDeliver] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
-
+const PostForm = ({ token, fetchPosts, posts }) => {
   const history = useHistory();
+  const params = useParams();
+
+  const { actionType, id } = params;
+
+  const isActionTypeEdit = actionType === 'edit-post';
+  const post = posts.find(post => post._id == id);
+
+  const [title, setTitle] = useState(isActionTypeEdit ? post.title : ''); 
+  const [description, setDescription] = useState(isActionTypeEdit ? post.description : '');
+  const [location, setLocation] = useState(isActionTypeEdit ? post.location : '');
+  const [price, setPrice] = useState(isActionTypeEdit ? post.price : '');
+  const [willDeliver, setWillDeliver] = useState(isActionTypeEdit ? post.willDeliver : false);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,14 +35,14 @@ const NewPostForm = ({ token, fetchPosts }) => {
             willDeliver
           }
         },
-        method: 'post',
-        endpoint: '/posts',
+        method: isActionTypeEdit ? 'patch' : 'post',
+        endpoint: `/posts${isActionTypeEdit ? '/' + id : ''}`,
         token
       });
 
       if (result.success) {
         fetchPosts();
-        history.push('/profile');
+        history.push('/posts');
       }
       else {
         setErrorMessage(result.error.message);
@@ -49,8 +55,8 @@ const NewPostForm = ({ token, fetchPosts }) => {
 
   return (
     <>
-      <h2 className='newPostHeader'>Create Post</h2>
-      <form className='newPostForm' onSubmit={handleSubmit} >
+      <h2 className='postFormHeader'>{isActionTypeEdit ? 'Edit Post' : 'Create Post'}</h2>
+      <form className='postForm' onSubmit={handleSubmit} >
         {errorMessage && <p className='errorMessage'>{errorMessage}</p>}
         <FormTextInput
           name={'title'}
@@ -59,7 +65,7 @@ const NewPostForm = ({ token, fetchPosts }) => {
           required
         />
 
-        <div className='newPostInput'>
+        <div className='postFormInput'>
           <label htmlFor='description'>Description: </label>
           <textarea
             name='description'
@@ -83,18 +89,19 @@ const NewPostForm = ({ token, fetchPosts }) => {
           setValue={setLocation}
         />
 
-        <div className='newPostCheckbox'>
+        <div className='postFormCheckbox'>
           <label htmlFor='willDeliver' >Will Deliver: </label>
           <input name='willDeliver'
             type='checkbox'
+            checked={willDeliver}
             onChange={() => setWillDeliver(!willDeliver)}
           />
         </div>
 
-        <button className='newPostSubmit' type='submit'>Submit</button>
+        <button className='postFormSubmit' type='submit'>Submit</button>
       </form>
     </>
   )
 }
 
-export default NewPostForm;
+export default PostForm;
