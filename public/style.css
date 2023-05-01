@@ -1,10 +1,81 @@
-h1 {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Overlock:wght@700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Lobster+Two:wght@700&display=swap'); */
+
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Titillium Web', sans-serif;
+}
+
+body {
+  background-color: #36454F;
+  color: #F8FBF8;
+}
+
+.siteHeader {
+  display: flex;
+  justify-content: space-between;
+  background-color: #2C3539;
+  padding: 1em 1.5em;
+  box-shadow: 3px 3px 5px -1px black;
+}
+
+.welcome {
+  display: flex;
+  justify-content: center;
+  margin: 2em;
+  font-family: 'Overlock', cursive;
+  font-size: 3em;
 }
 
 nav {
   display: flex;
-  justify-content: space-evenly;
+  align-items: center;
+}
+
+.navLink {
+  margin-left: 2em;
+  font-size: large;
+  color: #F8FBF8;
+}
+
+.profileFormHeader {
+  text-align: center;
+  margin: .75em;
+}
+
+.profileForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 27.5%;
+  padding: 1em 0;
+  border: solid black;
+  border-radius: 3px;
+}
+
+.profileFormLink {
+  color: #F8FBF8;
+}
+
+.errorMessage {
+  color: red;
+}
+
+.logoutButton {
+  height: fit-content;
+  margin-left: 1em;
+}
+
+.postsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: .5em;
+  padding: .5em;
+  border: solid black;
+  border-radius: 3px;
 }
 
 .post {
@@ -16,38 +87,9 @@ nav {
   border-radius: 3px;
 }
 
-.profileForm {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.errorMessage {
-  color: red;
-}
-
-.inactive {
-  color: red;
-}
-
-.welcome {
-  display: flex;
-  justify-content: center;
-}
-
-.profileHeader {
-  display: flex;
-  align-items: center;
-}
-
-.logoutButton {
-  height: fit-content;
-  margin-left: 1em;
-}
-
-.myPostsHeader {
-  display: flex;
-  align-items: center;
+.deleteButton {
+  width: fit-content;
+  margin: .5em 0;
 }
 
 .newPostButton {
@@ -58,9 +100,75 @@ nav {
 .newPostForm {
   display: flex;
   flex-direction: column;
+  padding: .5em;
+  margin: .5em;
+  border: solid black;
+  border-radius: 3px;
+}
+
+.newPostInput {
+  margin: .5em;
+  display: flex;
+  flex-direction: column;
+}
+
+.newPostCheckbox {
+  margin: .5em;
+}
+
+.newPostHeader {
+  text-align: center;
+  margin: .75em;
+}
+
+.newPostSubmit {
+  margin: .5em;
+}
+
+.profileHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1em;
+  padding: .5em;
+  border: solid black;
+  border-radius: 3px;
+}
+
+.pHeaderSubContainer {
+  display: flex;
   align-items: center;
 }
 
-.messages {
+.userContainer {
   display: flex;
+  align-items: center;
+}
+
+.messagesContainer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.messagesSubContainer {
+  width: 40%;
+  height: 60vh;
+  border: solid black;
+  border-radius: 3px;
+}
+
+.message {
+  margin: .5em;
+  padding: .5em;
+  border: 2px solid black;
+  border-radius: 3px;
+}
+
+.mSubContainerHeader {
+  text-align: center;
+}
+
+.mHeader {
+  text-align: center;
+  margin: 1em;
 }

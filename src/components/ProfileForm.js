@@ -3,7 +3,7 @@ import { Link, useParams, useHistory } from "react-router-dom/cjs/react-router-d
 import { fetchFromAPI } from "../api";
 import { async } from "q";
 
-const ProfileForm = ({ token, setToken, fetchPosts }) => {
+const ProfileForm = ({ token, setToken }) => {
   const history = useHistory();
   const params = useParams();
   const { actionType } = params;
@@ -30,8 +30,6 @@ const ProfileForm = ({ token, setToken, fetchPosts }) => {
       if (result.success) {
         setToken(result.data.token);
         console.log(result.data.message);
-        await fetchPosts();
-        //setErrorMessage(null);
         history.push('/profile');
       }
       else {
@@ -51,7 +49,9 @@ const ProfileForm = ({ token, setToken, fetchPosts }) => {
     <>
       {token && history.push('/profile')}
 
-      <h1>{actionType === 'login' ? 'Log In' : 'Register'}</h1>
+      <h2 className='profileFormHeader'>
+        {actionType === 'login' ? 'Log In' : 'Register'}
+      </h2>
       <form onSubmit={handleSubmit} className='profileForm'>
         {errorMessage && <p className='errorMessage'>{errorMessage}</p>}
         <label htmlFor='username' >User Name</label>
@@ -87,8 +87,12 @@ const ProfileForm = ({ token, setToken, fetchPosts }) => {
         <button type='submit'>SUBMIT</button>
         {
           actionType === 'login'
-            ? <Link to='/profile/register'>Don't have an account? Register here.</Link>
-            : <Link to='/profile/login'>Already have an account? Login here.</Link>
+            ? <Link to='/profile/register' className='profileFormLink'>
+                Don't have an account? Register here.
+              </Link>
+            : <Link to='/profile/login' className='profileFormLink'>
+                Already have an account? Login here.
+              </Link>
         }
       </form>
     </>

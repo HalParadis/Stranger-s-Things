@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { fetchFromAPI } from "../api";
 import { FormTextInput } from ".";
 
-const NewPostForm = ({token, fetchPosts}) => {
+const NewPostForm = ({ token, fetchPosts }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
@@ -34,7 +34,6 @@ const NewPostForm = ({token, fetchPosts}) => {
     });
 
     if (result.success) {
-      //setErrorMessage(null);
       fetchPosts();
       history.push('/profile');
     }
@@ -45,18 +44,48 @@ const NewPostForm = ({token, fetchPosts}) => {
 
   return (
     <>
-      <h1>New Post</h1>
+      <h2 className='newPostHeader'>Create Post</h2>
       <form className='newPostForm' onSubmit={handleSubmit} >
         {errorMessage && <p className='errorMessage'>{errorMessage}</p>}
-        <FormTextInput name={'title'} value={title} setValue={setTitle} />
+        <FormTextInput
+          name={'title'}
+          value={title}
+          setValue={setTitle}
+          required
+        />
 
-        <FormTextInput name={'description'} value={description} setValue={setDescription} />
+        {/* <FormTextInput
+          name={'description'}
+          value={description}
+          setValue={setDescription}
+          required
+        /> */}
 
-        <FormTextInput name={'location'} value={location} setValue={setLocation} />
+        <div className='newPostInput'>
+          <label htmlFor='description'>Description: </label>
+          <textarea
+            name='description'
+            rows='4'
+            cols='40'
+            value={description}
+            onChange={event => setDescription(event.target.value)}
+          />
+        </div>
 
-        <FormTextInput name={'price'} value={price} setValue={setPrice} />
+        <FormTextInput
+          name={'price'}
+          value={price}
+          setValue={setPrice}
+          required
+        />
 
-        <div>
+        <FormTextInput
+          name={'location'}
+          value={location}
+          setValue={setLocation}
+        />
+
+        <div className='newPostCheckbox'>
           <label htmlFor='willDeliver' >Will Deliver: </label>
           <input name='willDeliver'
             type='checkbox'
@@ -64,7 +93,7 @@ const NewPostForm = ({token, fetchPosts}) => {
           />
         </div>
 
-        <button type='submit'>Submit</button>
+        <button className='newPostSubmit' type='submit'>Submit</button>
       </form>
     </>
   )

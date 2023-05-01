@@ -17,7 +17,6 @@ const Post = ({post, token, fetchPosts}) => {
   } = post;
 
   return <div className='post'>
-    {/* {!active && <small className='inactive'>INACTIVE</small> } */}
     <h2>{title}</h2>
     <p>{description}</p>
     <h4>{'Price: ' + price}</h4>
@@ -29,6 +28,7 @@ const Post = ({post, token, fetchPosts}) => {
     {
       isAuthor && active && <button
         type='button'
+        className='deleteButton'
         onClick={async () => {
           const result = await fetchFromAPI({
             endpoint: `/posts/${_id}`,
